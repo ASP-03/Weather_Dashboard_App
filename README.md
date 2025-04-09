@@ -47,7 +47,7 @@ A modern, responsive weather dashboard application built with React and Chakra U
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/weather-dashboard.git
+   git clone https://github.com/ASP-03/Weather_Dashboard_App.git
    cd weather-dashboard
    ```
 
