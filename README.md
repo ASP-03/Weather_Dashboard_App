@@ -10,7 +10,7 @@ A modern, responsive weather dashboard application built with React and Chakra U
 
 🌐 **Live Demo**: [Weather Dashboard](https://weather-dashboard-app-eta.vercel.app/)
 
-![Weather Dashboard Preview](preview.png)
+![Weather Dashboard Preview](public/preview.png)
 
 ## Table of Contents
 - [Features](#features)
