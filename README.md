@@ -2,7 +2,7 @@
 
 A modern, responsive weather dashboard application built with React and Chakra UI. View live weather conditions and forecasts with beautiful dynamic backgrounds that change based on weather conditions and time of day.
 
-🌐 **Live Demo**: [Weather Dashboard](https://weather-dashboard-kiit.vercel.app)
+🌐 **Live Demo**: [Weather Dashboard](https://weather-dashboard-app-eta.vercel.app/)
 
 ![Weather Dashboard Preview](preview.png)
 
@@ -73,7 +73,7 @@ A modern, responsive weather dashboard application built with React and Chakra U
 
 ## Deployment
 
-This project is deployed and live on Vercel! You can view it at [https://weather-dashboard-kiit.vercel.app](https://weather-dashboard-kiit.vercel.app)
+This project is deployed and live on Vercel! You can view it at [https://weather-dashboard-app-eta.vercel.app/](https://weather-dashboard-app-eta.vercel.app/)
 
 To deploy your own instance:
 
@@ -86,8 +86,6 @@ To deploy your own instance:
    - Value: Your OpenWeatherMap API key
 6. Deploy!
 
-> ⚠️ **Security Note**: Never commit your `.env` file or expose your API keys in your repository. Always use environment variables in your deployment platform.
-
 The Vite framework preset ensures that:
 - Build commands are correctly configured
 - Output directory is properly set
@@ -98,10 +96,6 @@ The Vite framework preset ensures that:
 
 Required environment variables:
 - `VITE_OPENWEATHER_API_KEY`: Your OpenWeatherMap API key
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
