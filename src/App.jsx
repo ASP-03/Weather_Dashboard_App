@@ -11,11 +11,13 @@ import {
   extendTheme,
   HStack,
   useColorModeValue,
+  useColorMode,
 } from '@chakra-ui/react'
 import { SearchBar } from './components/SearchBar'
 import { WeatherCard } from './components/WeatherCard'
 import { ForecastCard } from './components/ForecastCard'
 import { RecentSearches } from './components/RecentSearches'
+import { ThemeToggle } from './components/ThemeToggle'
 import { useWeather } from './hooks/useWeather'
 import { BACKGROUND_STYLES } from './config/weatherConfig'
 
@@ -50,6 +52,7 @@ const ImagePreloader = () => {
 
 function App() {
   const { weather, forecast, loading, error, searchHistory, fetchWeather, currentCity } = useWeather()
+  const { colorMode } = useColorMode()
   
   const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY
   const apiKeyError = !apiKey || apiKey === 'your_api_key_here'
@@ -89,6 +92,9 @@ function App() {
       });
     }
   }, [weather, isDay]);
+
+  // Calculate dark mode overlay opacity
+  const darkModeOverlayOpacity = colorMode === 'dark' ? 0.5 : 0;
 
   return (
     <ChakraProvider theme={theme}>
@@ -133,6 +139,20 @@ function App() {
           zIndex={0}
         />
         
+        {/* Dark mode overlay */}
+        <Box
+          position="fixed"
+          top={0}
+          left={0}
+          right={0}
+          bottom={0}
+          bg="black"
+          opacity={darkModeOverlayOpacity}
+          transition="opacity 0.3s ease-in-out"
+          pointerEvents="none"
+          zIndex={0}
+        />
+        
         <Box 
           w="100%"
           minH="100vh"
@@ -145,6 +165,8 @@ function App() {
           zIndex={1}
           backdropFilter="blur(8px)"
         >
+          <ThemeToggle />
+          
           <VStack 
             w="100%"
             maxW="1200px"
