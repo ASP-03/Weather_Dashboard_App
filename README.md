@@ -171,18 +171,23 @@ This project uses the OpenWeatherMap API:
 
 ### Project Structure
 ```
-weather-dashboard/
-├── public/
-│   └── preview.png
+Weather_Dashboard_App/
 ├── src/
 │   ├── components/
 │   │   ├── SearchBar.jsx
 │   │   ├── WeatherCard.jsx
-│   │   └── ForecastCard.jsx
+│   │   ├── ForecastCard.jsx
+│   │   ├── RecentSearches.jsx
+│   │   └── ThemeToggle.jsx
+│   ├── config/
+│   │   └── weatherConfig.js
+│   ├── hooks/
+│   │   ├── useWeather.js
+│   │   ├── useApi.js
+│   │   └── useLocation.js
 │   ├── services/
 │   │   └── weatherService.js
-│   ├── hooks/
-│   │   └── useWeather.js
+│   ├── preview.png
 │   ├── App.jsx
 │   └── main.jsx
 ├── .env

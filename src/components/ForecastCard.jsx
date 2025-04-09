@@ -1,14 +1,22 @@
+// This component shows the 5-day weather forecast in a nice grid layout.
+// Each day gets its own card with temperature, weather icon, and description.
+// We're using Framer Motion for smooth animations when the forecast loads.
 import { Box, Text, HStack, Image, useColorModeValue, VStack, Grid } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 
+// Wrap Box with motion for smooth animations
 const MotionBox = motion(Box);
 
+// Helper function to make weather descriptions look nice
+// (e.g., "scattered clouds" becomes "Scattered Clouds")
 const capitalizeFirstLetter = (string) => {
   return string.split(' ').map(word => 
     word.charAt(0).toUpperCase() + word.slice(1)
   ).join(' ');
 };
 
+// A component for displaying a single day's forecast
+// Shows the day name, weather icon, temperature, and description
 const ForecastDay = ({ data }) => {
   const textColor = useColorModeValue('gray.600', 'gray.300');
   const date = new Date(data.dt * 1000);
@@ -46,10 +54,12 @@ const ForecastDay = ({ data }) => {
   );
 };
 
+// The main ForecastCard component that displays the 5-day forecast
 export const ForecastCard = ({ forecast }) => {
   if (!forecast || !forecast.list) return null;
 
-  // Get one forecast per day (at noon)
+  // Process the forecast data to get one forecast per day
+  // We want to show forecasts for noon each day for consistency
   const dailyForecasts = [];
   const processedDates = new Set();
 
@@ -57,15 +67,17 @@ export const ForecastCard = ({ forecast }) => {
     const date = new Date(item.dt * 1000);
     const dateString = date.toDateString();
 
+    // Only add one forecast per day, and make sure it's in the future
     if (!processedDates.has(dateString) && date.getTime() > new Date().getTime()) {
       processedDates.add(dateString);
       dailyForecasts.push(item);
     }
   });
 
-  // Take only the next 5 days
+  // Take only the next 5 days of forecasts
   const nextFiveDays = dailyForecasts.slice(0, 5);
 
+  // Render the forecast grid with smooth animations
   return (
     <MotionBox
       initial={{ opacity: 0, y: 20 }}
@@ -83,6 +95,7 @@ export const ForecastCard = ({ forecast }) => {
         flexDirection="column"
         alignItems="center"
       >
+        {/* Forecast header */}
         <Text
           fontSize={{ base: "2xl", md: "3xl" }}
           fontWeight="bold"
@@ -94,11 +107,12 @@ export const ForecastCard = ({ forecast }) => {
         >
           5-Day Forecast
         </Text>
+        {/* Responsive grid of forecast cards */}
         <Grid
           templateColumns={{
-            base: 'repeat(2, 1fr)',
-            sm: 'repeat(3, 1fr)',
-            md: 'repeat(5, 1fr)',
+            base: 'repeat(2, 1fr)',  // 2 columns on mobile
+            sm: 'repeat(3, 1fr)',    // 3 columns on small screens
+            md: 'repeat(5, 1fr)',    // 5 columns on medium and up
           }}
           gap={4}
           w="100%"

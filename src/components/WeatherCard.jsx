@@ -1,3 +1,6 @@
+// This is our main weather card component - it shows all the current weather info
+// in a beautiful, easy-to-read format. We're using Framer Motion for smooth animations
+// and Chakra UI for styling. Pretty fancy, right?
 import { Box, Text, VStack, HStack, Image, useColorModeValue, Icon, Flex, IconButton } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { WiHumidity, WiStrongWind, WiThermometer, WiBarometer } from 'react-icons/wi';
@@ -5,8 +8,11 @@ import { RepeatIcon } from '@chakra-ui/icons';
 import { memo } from 'react';
 import { LazyImage } from './LazyImage';
 
+// Wrap Box with motion for smooth animations
 const MotionBox = motion(Box);
 
+// A reusable component for displaying weather stats like temperature, humidity, etc.
+// We memoize it to prevent unnecessary re-renders
 const WeatherStat = memo(({ icon, label, value, unit }) => {
   const textColor = useColorModeValue('gray.600', 'gray.300');
   return (
@@ -22,23 +28,30 @@ const WeatherStat = memo(({ icon, label, value, unit }) => {
 
 WeatherStat.displayName = 'WeatherStat';
 
+// Helper function to make weather descriptions look nice
+// (e.g., "scattered clouds" becomes "Scattered Clouds")
 const capitalizeFirstLetter = (string) => {
   return string.split(' ').map(word => 
     word.charAt(0).toUpperCase() + word.slice(1)
   ).join(' ');
 };
 
+// The main WeatherCard component - this is where we display all the weather info
+// We memoize it to prevent unnecessary re-renders when parent components update
 export const WeatherCard = memo(({ weather, onRefresh }) => {
   if (!weather) return null;
 
+  // Set up our color scheme based on light/dark mode
   const bgColor = useColorModeValue('whiteAlpha.900', 'blackAlpha.600');
   const textColor = useColorModeValue('gray.800', 'white');
   const cardBg = useColorModeValue('white', 'gray.800');
 
+  // Extract and format the weather data
   const weatherDescription = capitalizeFirstLetter(weather.weather[0].description);
   const temperature = Math.round(weather.main.temp);
   const location = `${weather.name}, ${weather.sys.country}`;
 
+  // Render our beautiful weather card with smooth animations
   return (
     <MotionBox
       initial={{ opacity: 0, y: 20 }}
@@ -50,6 +63,7 @@ export const WeatherCard = memo(({ weather, onRefresh }) => {
       role="region"
       aria-label="Current weather information"
     >
+      {/* Main card container with blur effect and shadow */}
       <Box
         bg={cardBg}
         backdropFilter="blur(10px)"
@@ -60,6 +74,7 @@ export const WeatherCard = memo(({ weather, onRefresh }) => {
         w="100%"
         maxW="600px"
       >
+        {/* Refresh button with cool rotation animation */}
         <IconButton
           icon={<RepeatIcon boxSize={4} />}
           position="absolute"
@@ -90,8 +105,10 @@ export const WeatherCard = memo(({ weather, onRefresh }) => {
           minW="36px"
         />
 
+        {/* Card content container */}
         <Box p={6} position="relative">
           <VStack spacing={4} align="stretch" w="100%">
+            {/* Location and weather description header */}
             <Flex justify="space-between" align="center">
               <VStack align="flex-start" spacing={1}>
                 <Text fontSize="3xl" fontWeight="bold" color={textColor}>
@@ -101,6 +118,7 @@ export const WeatherCard = memo(({ weather, onRefresh }) => {
                   {weatherDescription}
                 </Text>
               </VStack>
+              {/* Weather icon from OpenWeatherMap */}
               <Box position="relative" w="80px" h="80px">
                 <LazyImage
                   src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
@@ -112,6 +130,7 @@ export const WeatherCard = memo(({ weather, onRefresh }) => {
               </Box>
             </Flex>
 
+            {/* Large temperature display */}
             <Text 
               fontSize="6xl" 
               fontWeight="bold" 
@@ -121,6 +140,7 @@ export const WeatherCard = memo(({ weather, onRefresh }) => {
               {temperature}°C
             </Text>
 
+            {/* Weather details section with all the stats */}
             <Box
               mt={6}
               p={4}
