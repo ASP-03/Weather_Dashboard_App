@@ -2,21 +2,25 @@ import { Box, Text, VStack, HStack, Image, useColorModeValue, Icon, Flex, IconBu
 import { motion } from 'framer-motion';
 import { WiHumidity, WiStrongWind, WiThermometer, WiBarometer } from 'react-icons/wi';
 import { RepeatIcon } from '@chakra-ui/icons';
+import { memo } from 'react';
+import { LazyImage } from './LazyImage';
 
 const MotionBox = motion(Box);
 
-const WeatherStat = ({ icon, label, value, unit }) => {
+const WeatherStat = memo(({ icon, label, value, unit }) => {
   const textColor = useColorModeValue('gray.600', 'gray.300');
   return (
-    <VStack spacing={1} align="center" flex="1">
-      <Icon as={icon} boxSize="24px" color={textColor} />
+    <VStack spacing={1} align="center" flex="1" role="group" aria-label={`${label} information`}>
+      <Icon as={icon} boxSize="24px" color={textColor} aria-hidden="true" />
       <Text fontSize="sm" color={textColor}>{label}</Text>
-      <Text fontWeight="bold" fontSize="lg">
+      <Text fontWeight="bold" fontSize="lg" aria-label={`${label}: ${value}${unit}`}>
         {value}{unit}
       </Text>
     </VStack>
   );
-};
+});
+
+WeatherStat.displayName = 'WeatherStat';
 
 const capitalizeFirstLetter = (string) => {
   return string.split(' ').map(word => 
@@ -24,12 +28,16 @@ const capitalizeFirstLetter = (string) => {
   ).join(' ');
 };
 
-export const WeatherCard = ({ weather, onRefresh }) => {
+export const WeatherCard = memo(({ weather, onRefresh }) => {
   if (!weather) return null;
 
   const bgColor = useColorModeValue('whiteAlpha.900', 'blackAlpha.600');
   const textColor = useColorModeValue('gray.800', 'white');
   const cardBg = useColorModeValue('white', 'gray.800');
+
+  const weatherDescription = capitalizeFirstLetter(weather.weather[0].description);
+  const temperature = Math.round(weather.main.temp);
+  const location = `${weather.name}, ${weather.sys.country}`;
 
   return (
     <MotionBox
@@ -39,6 +47,8 @@ export const WeatherCard = ({ weather, onRefresh }) => {
       w="100%"
       display="flex"
       justifyContent="center"
+      role="region"
+      aria-label="Current weather information"
     >
       <Box
         bg={cardBg}
@@ -50,7 +60,6 @@ export const WeatherCard = ({ weather, onRefresh }) => {
         w="100%"
         maxW="600px"
       >
-        {/* Refresh Button */}
         <IconButton
           icon={<RepeatIcon boxSize={4} />}
           position="absolute"
@@ -58,7 +67,7 @@ export const WeatherCard = ({ weather, onRefresh }) => {
           right={2}
           borderRadius="full"
           size="md"
-          aria-label="Refresh weather"
+          aria-label="Refresh weather data"
           onClick={onRefresh}
           bg="white"
           color="blue.500"
@@ -81,22 +90,21 @@ export const WeatherCard = ({ weather, onRefresh }) => {
           minW="36px"
         />
 
-        {/* Main Weather Info */}
         <Box p={6} position="relative">
           <VStack spacing={4} align="stretch" w="100%">
             <Flex justify="space-between" align="center">
               <VStack align="flex-start" spacing={1}>
                 <Text fontSize="3xl" fontWeight="bold" color={textColor}>
-                  {weather.name}, {weather.sys.country}
+                  {location}
                 </Text>
                 <Text fontSize="lg" color={textColor} opacity={0.8}>
-                  {capitalizeFirstLetter(weather.weather[0].description)}
+                  {weatherDescription}
                 </Text>
               </VStack>
               <Box position="relative" w="80px" h="80px">
-                <Image
+                <LazyImage
                   src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-                  alt={weather.weather[0].description}
+                  alt={`Weather icon for ${weatherDescription}`}
                   width="100%"
                   height="100%"
                   objectFit="contain"
@@ -104,16 +112,22 @@ export const WeatherCard = ({ weather, onRefresh }) => {
               </Box>
             </Flex>
 
-            <Text fontSize="6xl" fontWeight="bold" color={textColor}>
-              {Math.round(weather.main.temp)}°C
+            <Text 
+              fontSize="6xl" 
+              fontWeight="bold" 
+              color={textColor}
+              aria-label={`Current temperature is ${temperature} degrees Celsius`}
+            >
+              {temperature}°C
             </Text>
 
-            {/* Weather Stats */}
             <Box
               mt={6}
               p={4}
               bg={useColorModeValue('gray.50', 'gray.700')}
               borderRadius="lg"
+              role="group"
+              aria-label="Weather details"
             >
               <HStack spacing={4} justify="space-between">
                 <WeatherStat
@@ -147,4 +161,6 @@ export const WeatherCard = ({ weather, onRefresh }) => {
       </Box>
     </MotionBox>
   );
-}; 
+});
+
+WeatherCard.displayName = 'WeatherCard'; 

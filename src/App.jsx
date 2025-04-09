@@ -9,11 +9,15 @@ import {
   AlertIcon,
   Box,
   extendTheme,
+  HStack,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { SearchBar } from './components/SearchBar'
 import { WeatherCard } from './components/WeatherCard'
 import { ForecastCard } from './components/ForecastCard'
+import { RecentSearches } from './components/RecentSearches'
 import { useWeather } from './hooks/useWeather'
+import { BACKGROUND_STYLES } from './config/weatherConfig'
 
 // Define theme configuration
 const theme = extendTheme({
@@ -58,96 +62,9 @@ function App() {
 
   const getBackgroundStyle = (weatherType, isDay) => {
     console.log('Weather type:', weatherType, 'Is Day:', isDay);
-    const styles = {
-      Clear: {
-        day: {
-          gradient: 'linear(to-b, blue.400, blue.200)',
-          overlay: 'radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 60%)',
-          image: 'url("https://images.unsplash.com/photo-1622278647429-71bc97e904e8?auto=format&fit=crop&w=1200&q=60")',
-        },
-        night: {
-          gradient: 'linear(to-b, gray.900, blue.900)',
-          overlay: 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 100%)',
-          image: 'url("https://images.unsplash.com/photo-1532978379173-523e16f371f9?auto=format&fit=crop&w=1200&q=60")',
-        },
-      },
-      Clouds: {
-        day: {
-          gradient: 'linear(to-b, gray.400, gray.300)',
-          overlay: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.1) 100%)',
-          image: 'url("https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?auto=format&fit=crop&w=1200&q=60")',
-        },
-        night: {
-          gradient: 'linear(to-b, gray.800, gray.700)',
-          overlay: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%)',
-          image: 'url("https://images.unsplash.com/photo-1594156596782-656c93e4d504?auto=format&fit=crop&w=1200&q=60")',
-        },
-      },
-      Rain: {
-        day: {
-          gradient: 'linear(to-b, gray.600, blue.600)',
-          overlay: 'linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 100%)',
-          image: 'url("https://images.unsplash.com/photo-1428592953211-077101b2021b?auto=format&fit=crop&w=1200&q=80")',
-        },
-        night: {
-          gradient: 'linear(to-b, gray.900, blue.900)',
-          overlay: 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 100%)',
-          image: 'url("https://images.unsplash.com/photo-1501691223387-dd0500403074?auto=format&fit=crop&w=1200&q=80")',
-        },
-      },
-      Snow: {
-        day: {
-          gradient: 'linear(to-b, gray.100, blue.50)',
-          overlay: 'linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%)',
-          image: 'url("https://images.unsplash.com/photo-1491002052546-bf38f186af56?q=80&w=2008&auto=format&fit=crop")',
-        },
-        night: {
-          gradient: 'linear(to-b, gray.300, blue.100)',
-          overlay: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 100%)',
-          image: 'url("https://images.unsplash.com/photo-1478265409131-1f65c88f965c?q=80&w=2065&auto=format&fit=crop")',
-        },
-      },
-      Thunderstorm: {
-        day: {
-          gradient: 'linear(to-b, gray.700, purple.800)',
-          overlay: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 100%)',
-          image: 'url("https://images.unsplash.com/photo-1605727216801-e27ce1d0cc28?q=80&w=2071&auto=format&fit=crop")',
-        },
-        night: {
-          gradient: 'linear(to-b, gray.900, purple.900)',
-          overlay: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%)',
-          image: 'url("https://images.unsplash.com/photo-1492011221367-f47e3ccd77a0?q=80&w=1937&auto=format&fit=crop")',
-        },
-      },
-      Mist: {
-        day: {
-          gradient: 'linear(to-b, gray.300, gray.200)',
-          overlay: 'linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%)',
-          image: 'url("https://images.unsplash.com/photo-1485236715568-ddc5ee6ca227?q=80&w=2076&auto=format&fit=crop")',
-        },
-        night: {
-          gradient: 'linear(to-b, gray.600, gray.500)',
-          overlay: 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 100%)',
-          image: 'url("https://images.unsplash.com/photo-1543968996-ee822b8176ba?q=80&w=2068&auto=format&fit=crop")',
-        },
-      },
-      default: {
-        day: {
-          gradient: 'linear(to-b, blue.400, blue.200)',
-          overlay: 'none',
-          image: 'url("https://images.unsplash.com/photo-1598717123623-994ab270a08e?auto=format&fit=crop&w=1200&q=60")',
-        },
-        night: {
-          gradient: 'linear(to-b, gray.800, gray.700)',
-          overlay: 'none',
-          image: 'url("https://images.unsplash.com/photo-1532978379173-523e16f371f9?auto=format&fit=crop&w=1200&q=60")',
-        },
-      },
-    }
-
     const timeOfDay = isDay ? 'day' : 'night'
     console.log('Weather condition received:', weatherType);
-    const style = styles[weatherType] || styles.default
+    const style = BACKGROUND_STYLES[weatherType] || BACKGROUND_STYLES.default
     console.log('Selected style:', style[timeOfDay]);
     return style[timeOfDay]
   }
@@ -254,7 +171,7 @@ function App() {
             ) : (
               <VStack spacing={8} w="100%" align="center">
                 <Box w="100%" maxW="600px">
-                  <SearchBar onSearch={fetchWeather} searchHistory={searchHistory} />
+                  <SearchBar onSearch={fetchWeather} />
                 </Box>
 
                 {loading && (
@@ -286,6 +203,10 @@ function App() {
                     )}
                   </VStack>
                 )}
+                
+                <Box w="100%" maxW="600px" mt={4}>
+                  <RecentSearches searchHistory={searchHistory} onSearch={fetchWeather} />
+                </Box>
               </VStack>
             )}
           </VStack>
