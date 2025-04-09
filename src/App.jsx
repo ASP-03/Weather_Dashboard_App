@@ -26,10 +26,12 @@ const theme = extendTheme({
 // Add this new component before the App function
 const ImagePreloader = () => {
   const imagesToPreload = [
-    "https://images.unsplash.com/photo-1601297183305-6df142704ea2?auto=format&fit=crop&w=1200&q=60",
+    "https://images.unsplash.com/photo-1598717123623-994ab270a08e?auto=format&fit=crop&w=1200&q=60", // Clear sky day
+    "https://images.unsplash.com/photo-1532978379173-523e16f371f9?auto=format&fit=crop&w=1200&q=60", // Clear sky night
     "https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?auto=format&fit=crop&w=1200&q=60",
-    "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=1200&q=60",
-    "https://images.unsplash.com/photo-1620385019253-b051a26048ce?auto=format&fit=crop&w=1200&q=60"
+    "https://images.unsplash.com/photo-1594156596782-656c93e4d504?auto=format&fit=crop&w=1200&q=60",
+    "https://images.unsplash.com/photo-1428592953211-077101b2021b?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1501691223387-dd0500403074?auto=format&fit=crop&w=1200&q=80"
   ]
 
   useEffect(() => {
@@ -55,12 +57,13 @@ function App() {
   }
 
   const getBackgroundStyle = (weatherType, isDay) => {
+    console.log('Weather type:', weatherType, 'Is Day:', isDay);
     const styles = {
       Clear: {
         day: {
           gradient: 'linear(to-b, blue.400, blue.200)',
           overlay: 'radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 60%)',
-          image: 'url("https://images.unsplash.com/photo-1601297183305-6df142704ea2?auto=format&fit=crop&w=1200&q=60")',
+          image: 'url("https://images.unsplash.com/photo-1598717123623-994ab270a08e?auto=format&fit=crop&w=1200&q=60")',
         },
         night: {
           gradient: 'linear(to-b, gray.900, blue.900)',
@@ -155,6 +158,18 @@ function App() {
   const bgStyle = weather ? 
     getBackgroundStyle(weather.weather[0].main, isDay) : 
     getBackgroundStyle('default', true)
+
+  // Add debug logging
+  useEffect(() => {
+    if (weather) {
+      console.log('Current weather:', {
+        condition: weather.weather[0].main,
+        description: weather.weather[0].description,
+        isDay,
+        selectedStyle: getBackgroundStyle(weather.weather[0].main, isDay)
+      });
+    }
+  }, [weather, isDay]);
 
   return (
     <ChakraProvider theme={theme}>

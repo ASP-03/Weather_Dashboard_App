@@ -21,6 +21,8 @@ export const getCurrentWeather = async (city) => {
         units: 'metric'
       }
     });
+    console.log('Weather response:', response.data);
+    console.log('Weather condition:', response.data.weather[0].main);
     return response.data;
   } catch (error) {
     if (error.response?.status === 401) {
