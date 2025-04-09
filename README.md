@@ -1,4 +1,4 @@
-# Weather Dashboard
+# Weather Dashboard App
 
 [![React](https://img.shields.io/badge/React-18.2.0-blue.svg)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.1.3-646CFF.svg)](https://vitejs.dev/)
