@@ -4,7 +4,7 @@ A modern, responsive weather dashboard application built with React and Chakra U
 
 🌐 **Live Demo**: [Weather Dashboard](https://weather-dashboard-kiit.vercel.app)
 
-![Weather Dashboard Preview](public/preview.png)
+![Weather Dashboard Preview](preview.png)
 
 ## Features
 

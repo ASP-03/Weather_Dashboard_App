@@ -26,7 +26,7 @@ const theme = extendTheme({
 // Add this new component before the App function
 const ImagePreloader = () => {
   const imagesToPreload = [
-    "https://images.unsplash.com/photo-1598717123623-994ab270a08e?auto=format&fit=crop&w=1200&q=60", // Clear sky day
+    "https://images.unsplash.com/photo-1622278647429-71bc97e904e8?auto=format&fit=crop&w=1200&q=60", // Clear sky day
     "https://images.unsplash.com/photo-1532978379173-523e16f371f9?auto=format&fit=crop&w=1200&q=60", // Clear sky night
     "https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?auto=format&fit=crop&w=1200&q=60",
     "https://images.unsplash.com/photo-1594156596782-656c93e4d504?auto=format&fit=crop&w=1200&q=60",
@@ -63,7 +63,7 @@ function App() {
         day: {
           gradient: 'linear(to-b, blue.400, blue.200)',
           overlay: 'radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 60%)',
-          image: 'url("https://images.unsplash.com/photo-1598717123623-994ab270a08e?auto=format&fit=crop&w=1200&q=60")',
+          image: 'url("https://images.unsplash.com/photo-1622278647429-71bc97e904e8?auto=format&fit=crop&w=1200&q=60")',
         },
         night: {
           gradient: 'linear(to-b, gray.900, blue.900)',
@@ -135,7 +135,7 @@ function App() {
         day: {
           gradient: 'linear(to-b, blue.400, blue.200)',
           overlay: 'none',
-          image: 'url("https://images.unsplash.com/photo-1601297183305-6df142704ea2?auto=format&fit=crop&w=1200&q=60")',
+          image: 'url("https://images.unsplash.com/photo-1598717123623-994ab270a08e?auto=format&fit=crop&w=1200&q=60")',
         },
         night: {
           gradient: 'linear(to-b, gray.800, gray.700)',
@@ -146,7 +146,9 @@ function App() {
     }
 
     const timeOfDay = isDay ? 'day' : 'night'
+    console.log('Weather condition received:', weatherType);
     const style = styles[weatherType] || styles.default
+    console.log('Selected style:', style[timeOfDay]);
     return style[timeOfDay]
   }
 
