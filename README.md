@@ -10,7 +10,16 @@ A modern, responsive weather dashboard application built with React and Chakra U
 
 🌐 **Live Demo**: [Weather Dashboard](https://weather-dashboard-app-eta.vercel.app/)
 
-![Weather Dashboard Preview](preview.png)
+## Preview
+
+### Main Dashboard
+![Weather Dashboard Preview](public/preview.png)
+
+### 5-Day Forecast
+![Weather Forecast](public/forecast.png)
+
+### Recent Searches
+![Recent Searches](public/recent.png)
 
 ## Table of Contents
 - [Features](#features)
@@ -187,9 +196,13 @@ Weather_Dashboard_App/
 │   │   └── useLocation.js
 │   ├── services/
 │   │   └── weatherService.js
-│   ├── preview.png
 │   ├── App.jsx
 │   └── main.jsx
+├── public/
+│   ├── preview.png
+│   ├── forecast.png
+│   ├── recent.png
+│   └── vite.svg
 ├── .env
 ├── package.json
 └── vite.config.js
